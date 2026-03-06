@@ -1,6 +1,6 @@
 # Apple Product Revenue Dashboard
 
-For this analysis I explored Apple product sales to identify top-performing products across regions using SQL and Superset dashboards.
+For this analysis I explored Apple product sales from 2022-2024 to identify top-performing products across regions using SQL and Superset dashboards.
 
 ## Tools & Technologies
 - **Database & Queries:** PostgreSQL  
@@ -31,11 +31,15 @@ Analyze Apple product revenue trends across regions and countries to identify to
 ---
 
 ## Key Insights
-- iPhones dominate revenue across most regions  
-- North America produces the highest total sales  
+- Macs (Especially the Mac Pro (M2 Ultra)) dominate revenue across most regions 
+- Europe produces the highest total sales  
 - Certain regions show stronger MacBook adoption  
-- iPad revenue is increasing steadily in Asia  
-- iPod and accessories have declining revenue trends  
+
+---
+
+## Adjustments and Improvements
+- Include more filters to filter by region and product.
+- Presence of more time-series trends (Per-Product Revenue over time, regional revenue over time)
 
 ---
 
@@ -52,4 +56,5 @@ SELECT
 FROM apple_dataset
 GROUP BY region, product_name
 ORDER BY revenue DESC;
+
 

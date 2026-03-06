@@ -1,6 +1,6 @@
 # Apple Product Revenue Dashboard
 
-For this analysis I analyzed Apple product sales to identify top-performing products across regions using SQL and Superset dashboards.
+For this analysis I explored Apple product sales to identify top-performing products across regions using SQL and Superset dashboards.
 
 ## Tools & Technologies
 - **Database & Queries:** PostgreSQL  
@@ -52,3 +52,4 @@ SELECT
 FROM apple_dataset
 GROUP BY region, product_name
 ORDER BY revenue DESC;
+

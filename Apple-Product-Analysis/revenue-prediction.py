@@ -51,9 +51,9 @@ for name, features in features_sets.items():
     
     # create feature set to identify which features need encoding
     all_features = (features.get('numeric', []) + 
-                    features.get('onehot', []) + 
-                    features.get('target', []))
-    
+                    features.get('onehot', []))
+    print(all_features)
+
     # split data
     X = df[all_features] 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -62,8 +62,6 @@ for name, features in features_sets.items():
     transformers = []
     if features.get('onehot'):
         transformers.append(('onehot', OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore'), features['onehot']))
-    elif features.get('target'):
-        transformers.append(('target', TargetEncoder(smooth='auto'), features['target']))
 
     # preprocess data that needs encoding
     preprocessor = ColumnTransformer(transformers, remainder='passthrough')
@@ -81,16 +79,18 @@ for name, features in features_sets.items():
     if features.get('onehot'):
         ohe = pipeline.named_steps['preprocessor'].named_transformers_['onehot']
         feature_names += ohe.get_feature_names_out(features['onehot']).tolist()
-    elif features.get('target'):
-        feature_names += features['target']
-    elif features.get('numeric'):
-        feature_names += features['numeric']
+    
+    feature_names += features['numeric']
 
+    print(feature_names)
+    print(pipeline.named_steps['model'].coef_)
+    print("passed")
     # create coefficient dataframe
     coef_df = pd.DataFrame({
         'feature':     feature_names,
         'coefficient': pipeline.named_steps['model'].coef_
     }).sort_values('coefficient', key=abs, ascending=False)
+    print(len(coef_df['feature']), len(coef_df['coefficient']))
 
     # calculate metrics, r2, root mean squared error, intecept, coefficient in print section
     r2   = r2_score(y_test, y_pred)

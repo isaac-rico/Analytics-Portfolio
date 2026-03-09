@@ -10,6 +10,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import TargetEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+import seaborn as sns
 import numpy as np
 
 #create engine for postgres
@@ -115,22 +116,33 @@ for name, features in features_sets.items():
     plt.plot([min_val, max_val], [min_val, max_val])
     plt.show()
 
-    # ====================== Plot for top drivers of revenue ======================
-    top_features = coef_df.head(10)
-
-    plt.figure()
-    plt.barh(top_features['feature'], top_features['coefficient'])
-    plt.title("Top Drivers of Revenue")
-    plt.xlabel("Coefficient Impact")
-    plt.gca().invert_yaxis()
-    plt.show()
-
     # ====================== Plot for revenue vs units sold ======================
+    plt.figure()
     plt.scatter(df['units_sold'], df['revenue'], alpha=0.5)
     plt.xlabel("Units Sold")
     plt.ylabel("Revenue")
-    plt.title("Revenue vs Units Sold")
+    plt.title(f"Revenue vs Units Sold for {name} set")
     plt.show()
+
+# ====================== Heatmap for revenue by category and region ======================
+heatmap_df = df.groupby(['category', 'region'])['revenue'].sum().unstack(fill_value=0)
+plt.figure(figsize=(12, 6))
+sns.heatmap(
+    heatmap_df,
+    annot=True,
+    fmt='0.2f',
+    cmap='YlOrRd',
+    linewidths=0.5,
+    linecolor='#e0e0e0',
+    cbar_kws={'label': 'Revenue'}
+)
+plt.title('Revenue by Category and Region', fontsize=14, pad=16)
+plt.xlabel('Region')
+plt.ylabel('Category')
+plt.xticks(rotation=35, ha='right')
+plt.yticks(rotation=0)
+plt.tight_layout()
+plt.show()
 
 
 

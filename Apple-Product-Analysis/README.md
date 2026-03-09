@@ -58,6 +58,46 @@ SELECT
 FROM apple_dataset
 GROUP BY region, product_name
 ORDER BY revenue DESC;
+```
+
+--- 
+
+## Machine Learning Analysis
+See [`demand-prediction.py`](demand-prediction.py) and [`revenue-prediction.py`](reveneue-prediction.py) for code. 
+
+### Demand Prediction
+**Model used: Linear Regression**
+**Fields used: unit_price_usd, category, region**
+
+- Used a linear regression model with two feature sets to determine the impact of unit price to demand and category + region to demand.
+
+**Results:** 
+```
+========= Feature set: price =========
+Intercept: 451.69 | RMSE: 539.28 | R2: -0.0026
+       feature  coefficient
+unit_price_usd     0.041217
+========= Feature set: cat_region =========
+Intercept: 407.92 | RMSE: 227.27 | R2: 0.8219
+             feature  coefficient
+         region_Asia   972.678164
+       region_Europe   940.775247
+category_Apple Watch  -326.682178
+    category_AirPods  -303.148799
+     category_iPhone   261.413508
+       category_iPad  -259.110750
+  region_Europe/Asia  -138.854512
+  region_Middle East  -125.506743
+      region_Oceania  -118.340076
+        category_Mac   -96.931475
+region_South America    64.178164
+region_North America   -41.571836
+```
+
+From these statistics, the demand for Apple products is driven almost entirely by geography and product category, not as much price. The model using category and region (cat_region) has an R<sup>2</sup> value of 0.82, explaining 82% of demand variance, while the model using unit price alone has an R<sup>2</sup> value of -0.0026, meaning there's near-zero price elasticity across the product lineup. We can note that the strongest demand is through region, with Asia and Europe generating around 940-970 additional units. Category-wise, the iPhone is the only product that outperforms the others in unit volumn (+261) while the Apple Watch, AirPods, and iPad underperform and sell fewer units; consistent with their higher price points. For demand planning purposes, price should not be included as a predictor, instead be in favor of a category-region model that'll provide both stronger predictive accuracy and more interpretable and actionable coefficients. 
+
+
+## Revenue Prediction -- wip
 
 
 

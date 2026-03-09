@@ -98,7 +98,7 @@ for name, features in features_sets.items():
     intercept = pipeline.named_steps['model'].intercept_
 
     # print metrics
-    print(f"=== Feature set: {name} ===")
+    print(f"========= Feature set: {name} =========")
     print(f"Intercept: {intercept:.2f} | RMSE: {rmse:.2f} | R2: {r2:.4f}")
     print(coef_df.to_string(index=False))
 

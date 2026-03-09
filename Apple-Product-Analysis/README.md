@@ -5,7 +5,7 @@ For this analysis I explored Apple product sales from 2022-2024 to identify top-
 ## Tools & Technologies
 - **Database & Queries:** PostgreSQL  
 - **Dashboarding:** Apache Superset  
-- **Data Analysis:** SQL, pandas (Python)  
+- **Data Analysis:** SQL, pandas (Python), scikit-learn (Python)
 - **Visualizations:** Superset charts  
 
 
@@ -20,7 +20,9 @@ Analyze Apple product revenue trends across regions and countries to identify to
 ## Key Questions
 - Which Apple products generate the most revenue globally?  
 - Which regions contribute the highest sales?  
-- What are the top-selling products per country?  
+- What are the top-selling products per country?
+- What categories drive revenue the most?
+- What has the biggest impact to demand?
 
 ## Dashboard Preview
 <img width="1238" height="720" alt="KPIs   Time-Based Analytics" src="https://github.com/user-attachments/assets/12932ce0-e057-4a88-829d-d2c8f456f09d" />
@@ -56,5 +58,6 @@ SELECT
 FROM apple_dataset
 GROUP BY region, product_name
 ORDER BY revenue DESC;
+
 
 

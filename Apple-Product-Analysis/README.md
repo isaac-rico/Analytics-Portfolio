@@ -96,8 +96,13 @@ region_North America   -41.571836
 
 From these statistics, the demand for Apple products is driven almost entirely by geography and product category, not as much price. The model using category and region (cat_region) has an R<sup>2</sup> value of 0.82, explaining 82% of demand variance, while the model using unit price alone has an R<sup>2</sup> value of -0.0026, meaning there's near-zero price elasticity across the product lineup. We can note that the strongest demand is through region, with Asia and Europe generating around 940-970 additional units. Category-wise, the iPhone is the only product that outperforms the others in unit volumn (+261) while the Apple Watch, AirPods, and iPad underperform and sell fewer units; consistent with their higher price points. For demand planning purposes, price should not be included as a predictor, instead be in favor of a category-region model that'll provide both stronger predictive accuracy and more interpretable and actionable coefficients. 
 
+<img width="1122" height="586" alt="image" src="https://github.com/user-attachments/assets/f4c39417-ef6f-4168-a32d-38dfe6526a95" />
+
+Seeing the actual heatmap of the units sold per category and region this holds true, as the most units are sold in Europe and Asia, with iPhones being the largest contributors.
+
 
 ## Revenue Prediction -- wip
+
 
 
 

@@ -87,7 +87,7 @@ for name, features in features.items():
     intercept = pipeline.named_steps['model'].intercept_
 
     print(f"========= Feature set: {name} =========")
-    print(f"Intercept: {intercept:.2f} | RMSE: {rmse:.2f} | R2: {r2:.4f}")
+    print(f"Intercept: {intercept:.2f} | RMSE: {rmse:.2f} | R^2: {r2:.4f}")
     print(coef_df.to_string(index=False))
 
     # ====================== Heatmap for units sold by category and region ======================

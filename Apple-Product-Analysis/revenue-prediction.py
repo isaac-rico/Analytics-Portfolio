@@ -17,10 +17,11 @@ import numpy as np
 engine = create_engine('postgresql+psycopg2://postgres:12345@localhost:7777/postgres')
 
 # connection verification
-if engine:
-    print("Connected")
-else:
-    print("Not Connected")
+try:
+    with engine.connect() as conn:
+        print("Connected")
+except Exception as e:
+    print(f"Not Connected: {e}")
 
 # SQL query
 query = """
@@ -53,7 +54,7 @@ for name, features in features_sets.items():
     # create feature set to identify which features need encoding
     all_features = (features.get('numeric', []) + 
                     features.get('onehot', []))
-    print(all_features)
+    # print(all_features)
 
     # split data
     X = df[all_features] 
@@ -83,15 +84,16 @@ for name, features in features_sets.items():
     
     feature_names += features['numeric']
 
-    print(feature_names)
-    print(pipeline.named_steps['model'].coef_)
-    print("passed")
+    # print(feature_names)
+    # print(pipeline.named_steps['model'].coef_)
+    # print("passed")
+
     # create coefficient dataframe
     coef_df = pd.DataFrame({
         'feature':     feature_names,
         'coefficient': pipeline.named_steps['model'].coef_
     }).sort_values('coefficient', key=abs, ascending=False)
-    print(len(coef_df['feature']), len(coef_df['coefficient']))
+    # print(len(coef_df['feature']), len(coef_df['coefficient']))
 
     # calculate metrics, r2, root mean squared error, intecept, coefficient in print section
     r2   = r2_score(y_test, y_pred)
@@ -100,13 +102,27 @@ for name, features in features_sets.items():
 
     # print metrics
     print(f"========= Feature set: {name} =========")
-    print(f"Intercept: {intercept:.2f} | RMSE: {rmse:.2f} | R2: {r2:.4f}")
+    print(f"Intercept: {intercept:.2f} | RMSE: {rmse:.2f} | R^2: {r2:.4f}")
     print(coef_df.to_string(index=False))
+
+    # colors per category for identification on plot
+    category_colors = {
+        'iPhone': '#1f77b4',
+        'iPad': '#ff7f0e',
+        'Mac': '#2ca02c',
+        'Apple Watch': '#d62728',
+        'AirPods': '#9467bd',
+    }
 
     # ====================== Plot for actual vs predicted revenue ======================
     plt.figure()
-    plt.scatter(y_test, y_pred)
+    
+    # category names for identification on plot
+    for cat, group in df.groupby('category'):
+        subset = df.loc[y_test.index, 'category'] == cat
+        plt.scatter(y_test[subset], y_pred[subset], color=category_colors.get(cat), label=cat, alpha=0.5, s=20)
 
+    plt.legend()
     plt.xlabel("Actual Revenue")
     plt.ylabel("Predicted Revenue")
     plt.title(f"Actual vs Predicted Revenue ({name} model)")
@@ -118,7 +134,13 @@ for name, features in features_sets.items():
 
     # ====================== Plot for revenue vs units sold ======================
     plt.figure()
-    plt.scatter(df['units_sold'], df['revenue'], alpha=0.5)
+
+    # category names for identification on plot
+    for cat in df['category'].unique():
+        subset = df[df['category'] == cat]
+        plt.scatter(subset['units_sold'], subset['revenue'], color=category_colors.get(cat), label=cat, alpha=0.5, s=20)    
+    
+    plt.legend()
     plt.xlabel("Units Sold")
     plt.ylabel("Revenue")
     plt.title(f"Revenue vs Units Sold for {name} set")

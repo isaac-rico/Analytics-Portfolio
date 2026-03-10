@@ -1,6 +1,7 @@
 # Apple Product Revenue & Demand Analytics Dashboard
 
 ## TL;DR
+[Dashboard](#dashboard-overview)
 - Built an end-to-end analytics project using PostgreSQL, Python, and Apache Superset
 - Analyzed Apple product sales from 2022-2024 across global markets
 - Built machine learning models to predict demand and revenue drivers
@@ -286,6 +287,7 @@ This project demonstrates how **SQL analytics, machine learning, and dashboard v
 The analysis shows that **Apple product demand is driven primarily by geography and product category**, while **revenue is largely determined by sales volume rather than pricing**.
 
 The findings in this project highlight the importance of **market segmentation and demand forecasting when analyzing global product performance**.
+
 
 
 

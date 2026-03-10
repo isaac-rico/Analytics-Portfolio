@@ -1,3 +1,6 @@
+# This runs a Linear Regression model on the data to predict demand
+
+# ====================== Imports ======================
 from sqlalchemy import create_engine
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,7 +13,7 @@ from sklearn.pipeline import Pipeline
 import seaborn as sns
 import numpy as np
 
-#create engine for postgres
+# create engine for postgres
 engine = create_engine('postgresql+psycopg2://postgres:12345@localhost:7777/postgres')
 
 # connection verification
@@ -20,7 +23,7 @@ try:
 except Exception as e:
     print(f"Not Connected: {e}")
 
-# SQL query
+# SQL query 
 query = """
 SELECT 
     category, region,

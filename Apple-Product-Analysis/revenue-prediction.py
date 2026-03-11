@@ -113,6 +113,7 @@ for name, features in features_sets.items():
         'Mac': '#2ca02c',
         'Apple Watch': '#d62728',
         'AirPods': '#9467bd',
+        'Accessories': '#8c564b'
     }
 
     # ====================== Plot for actual vs predicted revenue ======================
@@ -133,19 +134,56 @@ for name, features in features_sets.items():
     plt.plot([min_val, max_val], [min_val, max_val])
     plt.show()
 
-    # ====================== Plot for revenue vs units sold ======================
-    plt.figure()
+# ====================== Product Portfolio Analysis 1 - revenue TOTAL vs units sold ======================
+plt.figure(figsize=(8, 6))
 
-    # category names for identification on plot
-    for cat in df['category'].unique():
-        subset = df[df['category'] == cat]
-        plt.scatter(subset['units_sold'], subset['revenue'], color=category_colors.get(cat), label=cat, alpha=0.5, s=20)    
-    
-    plt.legend()
-    plt.xlabel("Units Sold")
-    plt.ylabel("Revenue")
-    plt.title(f"Revenue vs Units Sold for {name} set")
-    plt.show()
+# aggregate revenue and units sold by category
+units_df = df.groupby('category').agg({
+    'units_sold': 'sum', 
+    'revenue': 'sum'
+}).reset_index()
+
+# category names for identification on plot
+for cat in units_df['category'].unique():
+    subset = units_df[units_df['category'] == cat]
+    plt.scatter(subset['units_sold'], subset['revenue'], color=category_colors.get(cat), label=cat, alpha=0.5, s=200)    
+
+# add median lines
+plt.axvline(units_df['units_sold'].median(), linestyle="--")
+plt.axhline(units_df['revenue'].median(), linestyle="--")
+
+plt.legend()
+plt.xlabel("Units Sold")
+plt.ylabel("Revenue")
+plt.title("Product Portfolio Analysis: Revenue per Units Sold")
+plt.show()
+
+# ====================== Product Portfolio Analysis 2 - revenue PER UNIT vs units sold ======================
+plt.figure(figsize=(8, 6))
+
+# aggregate revenue and units sold by category
+portfolio_df = df.groupby('category').agg({
+    'units_sold': 'sum',
+    'revenue': 'sum',
+}).reset_index()
+
+# calculate revenue per unit
+portfolio_df['revenue_per_unit'] = portfolio_df['revenue'] / portfolio_df['units_sold']
+
+# category names for identification on plot
+for cat in portfolio_df['category'].unique():
+        subset = portfolio_df[portfolio_df['category'] == cat]
+        plt.scatter(subset['units_sold'], subset['revenue_per_unit'], color=category_colors.get(cat), label=cat, alpha=0.5, s=200) 
+
+# add median lines
+plt.axvline(portfolio_df['units_sold'].median(), linestyle="--")
+plt.axhline(portfolio_df['revenue_per_unit'].median(), linestyle="--")
+
+plt.legend()
+plt.xlabel("Units Sold")
+plt.ylabel("Revenue per Unit")
+plt.title("Product Portfolio Analysis: Revenue per Unit vs Units Sold")
+plt.show()
 
 # ====================== Heatmap for revenue by category and region ======================
 heatmap_df = df.groupby(['category', 'region'])['revenue'].sum().unstack(fill_value=0)
@@ -166,6 +204,3 @@ plt.xticks(rotation=35, ha='right')
 plt.yticks(rotation=0)
 plt.tight_layout()
 plt.show()
-
-
-

@@ -185,22 +185,23 @@ plt.ylabel("Revenue per Unit")
 plt.title("Product Portfolio Analysis: Revenue per Unit vs Units Sold")
 plt.show()
 
-# ====================== Heatmap for revenue by category and region ======================
-heatmap_df = df.groupby(['category', 'region'])['revenue'].sum().unstack(fill_value=0)
-plt.figure(figsize=(12, 6))
-sns.heatmap(
-    heatmap_df,
-    annot=True,
-    fmt='0.2f',
-    cmap='YlOrRd',
-    linewidths=0.5,
-    linecolor='#e0e0e0',
-    cbar_kws={'label': 'Revenue'}
-)
-plt.title('Revenue by Category and Region', fontsize=14, pad=16)
-plt.xlabel('Region')
-plt.ylabel('Category')
-plt.xticks(rotation=35, ha='right')
-plt.yticks(rotation=0)
-plt.tight_layout()
-plt.show()
+# no need for heatmap; see dashboard for insights
+# # ====================== Heatmap for revenue by category and region ======================
+# heatmap_df = df.groupby(['category', 'region'])['revenue'].sum().unstack(fill_value=0)
+# plt.figure(figsize=(12, 6))
+# sns.heatmap(
+#     heatmap_df,
+#     annot=True,
+#     fmt='0.2f',
+#     cmap='YlOrRd',
+#     linewidths=0.5,
+#     linecolor='#e0e0e0',
+#     cbar_kws={'label': 'Revenue'}
+# )
+# plt.title('Revenue by Category and Region', fontsize=14, pad=16)
+# plt.xlabel('Region')
+# plt.ylabel('Category')
+# plt.xticks(rotation=35, ha='right')
+# plt.yticks(rotation=0)
+# plt.tight_layout()
+# plt.show()

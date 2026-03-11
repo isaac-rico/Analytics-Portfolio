@@ -302,7 +302,7 @@ Potential improvements to this project include:
 - demand elasticity modeling with additional pricing variables
 - advanced ML models like Random Forest or Gradient Boosting
 - additional dashboard filters and time-series visualizations
-- integrating marketing or product launch data
+- integrating sales channels, customer segments and ratings.
 
 ---
 
@@ -312,6 +312,7 @@ This project demonstrates how **SQL analytics, machine learning, and dashboard v
 The analysis shows that **Apple product demand is driven primarily by geography and product category**, while **revenue is largely determined by sales volume rather than pricing**.
 
 The findings in this project highlight the importance of **market segmentation and demand forecasting when analyzing global product performance**.
+
 
 
 

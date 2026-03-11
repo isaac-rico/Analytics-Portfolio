@@ -101,7 +101,7 @@ This Superset dashboard provides multiple analytical views
 <img width="1251" height="357" alt="image" src="https://github.com/user-attachments/assets/5eedc1e8-cf90-4c2a-ae9d-928f502442ae" />
 
 ### Time Based Analytics
-- Revenue trends over time, product performance trends
+- Revenue trends over time, units sold trends over time
   
 <img width="1237" height="458" alt="image" src="https://github.com/user-attachments/assets/53ee5572-37dc-4fd2-9177-1552b441b3be" />
 
@@ -287,6 +287,7 @@ This project demonstrates how **SQL analytics, machine learning, and dashboard v
 The analysis shows that **Apple product demand is driven primarily by geography and product category**, while **revenue is largely determined by sales volume rather than pricing**.
 
 The findings in this project highlight the importance of **market segmentation and demand forecasting when analyzing global product performance**.
+
 
 
 

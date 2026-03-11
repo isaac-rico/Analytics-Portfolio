@@ -219,7 +219,7 @@ A second regression model was built to understand the **drivers of Apple product
 
 **Baseline Model Features and Coefficients**
 | Feature | Coefficient |
-| --- | --- | |
+| --- | --- |
 |units_sold | 766.939003|
 |unit_price_usd  |  1.911222|
 
@@ -287,6 +287,7 @@ This project demonstrates how **SQL analytics, machine learning, and dashboard v
 The analysis shows that **Apple product demand is driven primarily by geography and product category**, while **revenue is largely determined by sales volume rather than pricing**.
 
 The findings in this project highlight the importance of **market segmentation and demand forecasting when analyzing global product performance**.
+
 
 
 

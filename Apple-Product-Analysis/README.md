@@ -262,6 +262,31 @@ Key Observations:
 
 ---
 
+## Product Portfolio Analysis
+To further analyze product strategy, **product demand (units sold)** and **revenue and revenue efficiency** were compared together.
+
+### Revenue vs Units Sold
+<img width="733" height="561" alt="image" src="https://github.com/user-attachments/assets/a5ba783f-976d-4db0-a898-71a23e3c6ec6" />
+
+This chart shows overall revenue performance by product category.
+
+Takeaways:
+- Mac products generate highest total revenue
+- iPhones maintain the highest demand across markets
+
+---
+
+### Revenue Efficiency (Revenue per Unit)
+<img width="756" height="568" alt="image" src="https://github.com/user-attachments/assets/7ef33089-656d-41db-92c9-8058e73c5eea" />
+
+This chart shows the relationship between product demand and revenue efficiency.
+
+Takeaways:
+- Mac products still generate the highest revenue per unit
+- Accessories sell at high volume but generate lower revenue per unit
+
+---
+
 ## Key Insights
 - Macs (Especially the Mac Pro (M2 Ultra)) dominate revenue across most regions. 
 - Europe produces the highest **total sales** among global markets.
@@ -287,6 +312,7 @@ This project demonstrates how **SQL analytics, machine learning, and dashboard v
 The analysis shows that **Apple product demand is driven primarily by geography and product category**, while **revenue is largely determined by sales volume rather than pricing**.
 
 The findings in this project highlight the importance of **market segmentation and demand forecasting when analyzing global product performance**.
+
 
 
 

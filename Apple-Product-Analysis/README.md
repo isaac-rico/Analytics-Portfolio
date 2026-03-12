@@ -151,12 +151,12 @@ See [`demand-prediction.py`](demand-prediction.py) and [`revenue-prediction.py`]
 ---
 
 ## Demand Prediction Model
-**Model: Linear Regression**
-**Target Variable:** units_sold
+- **Model: Linear Regression**
+- **Target Variable:** units_sold
 
 ### Feature Sets Tested:
-**Price Model:** unit_price_usd
-**Category + Region Model:** category, region
+- **Price Model:** unit_price_usd
+- **Category + Region Model:** category, region
 
 ---
 
@@ -312,6 +312,7 @@ This project demonstrates how **SQL analytics, machine learning, and dashboard v
 The analysis shows that **Apple product demand is driven primarily by geography and product category**, while **revenue is largely determined by sales volume rather than pricing**.
 
 The findings in this project highlight the importance of **market segmentation and demand forecasting when analyzing global product performance**.
+
 
 
 

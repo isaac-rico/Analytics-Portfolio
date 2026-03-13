@@ -89,15 +89,16 @@ for name, features in features.items():
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
     intercept = pipeline.named_steps['model'].intercept_
 
+    # print metrics and coefficients
     print(f"========= Feature set: {name} =========")
     print(f"Intercept: {intercept:.2f} | RMSE: {rmse:.2f} | R^2: {r2:.4f}")
     print(coef_df.to_string(index=False))
 
-    # ====================== Heatmap for units sold by category and region ======================
     if name == 'cat_region':
+        # ====================== Heatmap for units sold by category and region ======================
         heatmap_df = df.groupby(['category', 'region'])['units_sold'].sum().unstack(fill_value=0)
 
-        plt.figure(figsize=(12, 6))
+        plt.figure(figsize=(12, 8))
         sns.heatmap(
             heatmap_df,
             annot=True,
@@ -116,12 +117,25 @@ for name, features in features.items():
         plt.tight_layout()
         plt.show()
 
-    # ====================== Scatter plot for unit price vs units sold ======================
+        # ====================== Scatter plot for actual vs predicted units sold - by category and region ======================
+        plt.figure(figsize=(12, 8))
+        plt.scatter(y_test, y_pred, alpha=0.5)
+        plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--') 
+        # category and region labels
+        for i in range(len(y_test)):
+            plt.text(y_test.iloc[i], y_pred[i], f"{df['category'].iloc[y_test.index[i]]} - {df['region'].iloc[y_test.index[i]]}", fontsize=8, alpha=0.7)
+        plt.xlabel("Actual Units Sold")
+        plt.ylabel("Predicted Units Sold")
+        plt.title("Actual vs Predicted Units Sold - By Category and Region")
+        plt.show()
+
+    # ====================== Scatter plot for actual vs predicted units sold - by unit price ======================
     elif name == 'price':
-        plt.scatter(df['unit_price_usd'], df['units_sold'], alpha=0.5)
-        plt.xlabel("Unit Price")
-        plt.ylabel("Units Sold")
-        plt.title("Unit Price vs Demand")
+        plt.scatter(y_test, y_pred, alpha=0.5)
+        plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--') 
+        plt.xlabel("Actual Units Sold")
+        plt.ylabel("Predicted Units Sold")
+        plt.title("Actual vs Predicted Units Sold - By Unit Price")
         plt.show()
 
         

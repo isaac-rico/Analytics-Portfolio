@@ -6,7 +6,7 @@
 - Analyzed Apple product sales from 2022-2024 across global markets
 - Built machine learning models to predict demand and revenue drivers
 - Found demand is primarily driven by geography and product category rather than price
-- Revenue analysis shows sales volume is the dominant driver of revenue performance
+- Revenue analysis shows that units sold is the most significant predictor for revenue
 
 ---
 

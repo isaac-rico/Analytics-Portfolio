@@ -57,8 +57,6 @@ GROUP BY
 # store query into pandas dataframe
 df = pd.read_sql(query, engine)
 
-print(df.head())
-
 # preprocessing
 features = {
     'numeric': ['customer_rating', 'discount_pct', 'discounted_price_usd', 'unit_price_usd'],
@@ -150,7 +148,6 @@ row = df_agg.iloc[0].copy() # take first since it has a discount
 
 # simulate discount changes from 0% to 33%
 discount_grid = np.linspace(0.0, 0.33, 34)
-print(discount_grid)
 
 # create simulated rows for each discount level
 simulated_rows = []

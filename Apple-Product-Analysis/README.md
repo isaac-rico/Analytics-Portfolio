@@ -4,7 +4,7 @@
 [Dashboard](#dashboard-overview)
 - Built an end-to-end analytics project using PostgreSQL, Python, and Apache Superset
 - Analyzed Apple product sales from 2022-2024 across global markets
-- Built machine learning models to predict demand and revenue drivers
+- Built Linear Regression and Random Forest ML models to predict demand and revenue drivers
 - Found demand is primarily driven by geography and product category rather than price
 - Revenue analysis shows that units sold is the most significant predictor for revenue
 
@@ -196,6 +196,68 @@ Key observations:
 These results indicate that **demand for forecasting models should prioritize product categorization and geographic markets rather than price variables along.**
 
 --- 
+
+## (3/13) Random Forest Demand Model
+
+To further explore nonlinear relationships between product demand and market characteristics, a **Random Forest regression model** was implemented.
+
+### Features:
+- **Numeric**: unit_price_usd, discounted_price_usd, discount_pct, customer_rating
+- **Categorical**: category, customer_segment, region, sales_channel
+
+### Target variable:
+- units_sold
+
+
+The original dataset contained very low variance in the target variable, where units_sold values ranged between 1 and 9 units per transaction.
+
+To improve model performance, the dataset was **aggregated by category, customer segment, region, and sales channel**, increrasing the variance in the target variable and enabling the model to learn stronger demand patterns across market segments. 
+
+---
+
+## Random Forest Model Performance
+
+| R^2 | RMSE |
+| --- | --- |
+| 0.8729 | 8.79 |
+ 
+### Actual vs Predicted Demand
+
+<img width="733" height="561" alt="image" src="https://github.com/isaac-rico/Analytics-Portfolio/blob/d929f9305fa7fdb28d751a2aa7e629227a6e74ae/Apple-Product-Analysis/Actual%20vs%20Predicted%20-%20Random%20Forest.png"/>
+
+This visualization compares the **actual vs predicted demand across category/ customer segment/region/sales channel segments**.
+
+Each point represents a predicted demand value compared with the observed value in the test dataset. With a variance of 0.8729, we expect a decent trend of points grouped closer to the diagonal, which we observe in the graph.
+
+---
+
+## Feature Importance
+
+<img width="733" height="561" alt="image" src="https://github.com/isaac-rico/Analytics-Portfolio/tree/e076cfb83bbc2193fb71cda2bdb75dfd6a0edb16/Apple-Product-Analysis"/>
+
+Feature importance analysis shows the strongest predictors of demand. Results are similar to that of the Linear Regression model:
+
+| Feature | Importance Insight | 
+| ------- | ------------------ |
+|region_Europe | strongest demand driver |
+|region_Asia | second strongest market |
+|category_iPhone | highest demand category |
+|discounted_price_usd | moderate influence |
+
+These results reinforce findings from the Linear Regression model that **geography and product category primarily drive product demand**.
+
+---
+
+## Random Forest Model Insights
+
+Key observations:
+- Regional demand differences dominate sales performance
+- iPhones consistently generate the highest demand
+- Pricing variables influence demand, but secondary to geography.
+
+Compared to the Linear Regression model, Random Forest provides **stronger predictive flexibility,** capturing nonlinear interactions between market and product variables.
+
+---
 
 ## Revenue Prediction Model
 A second regression model was built to understand the **drivers of Apple product revenue.**

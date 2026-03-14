@@ -380,7 +380,7 @@ Takeaways:
 ## Future Improvements
 Potential improvements to this project include:
 - demand elasticity modeling with additional pricing variables
-- advanced ML models like Random Forest or Gradient Boosting
+- advanced ML models like XGBoost or Gradient Boosting
 - additional dashboard filters and time-series visualizations
 - integrating sales channels, customer segments and ratings.
 

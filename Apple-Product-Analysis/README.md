@@ -248,6 +248,24 @@ These results reinforce findings from the Linear Regression model that **geograp
 
 ---
 
+## What-If Demand Simulation
+
+To demonstrate how the model can support decision-making, a **what-if analysis** was conducted by varying the product discount percentage while keep other features constant. This simulation allows us to estimate how demand may respond to different pricing strategies. 
+
+### Example Scenario
+A sample product-market segment was selected and discount percentages were varied from 0-30%. 
+
+The Random Forest model was then used to predict demand under each scenario.
+
+<img width="733" height="561" alt="image" src="https://github.com/isaac-rico/Analytics-Portfolio/blob/98ce786ba006aa3cdb4232626bb5091c3cd88c5f/Apple-Product-Analysis/What%20if%20-%20discount%20%25.png"/>
+
+Observations:
+- Increasing discounts generally lead to **higher predicted demand**
+- Demand increases at a **diminishing rate as discounts grow**
+- This type of simulation can help estimate **optimal pricing strategies**
+
+---
+
 ## Random Forest Model Insights
 
 Key observations:

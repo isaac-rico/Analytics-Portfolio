@@ -1,2 +1,3 @@
-# Analytics-Portfolio
-Isaac's Analytics Portfolio - Dashboards, SQL, Python, etc.
+# US Youtube Trending Statistics Anaylsis
+
+Work in progress

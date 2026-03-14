@@ -136,7 +136,7 @@ plt.scatter(y_test, y_pred, alpha=0.5)
 plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--')
 plt.xlabel("Actual Units Sold")
 plt.ylabel("Predicted Units Sold")
-plt.title("Actual vs Predicted Units Sold")
+plt.title("Actual vs Predicted Units Sold - Random Forest Model")
 plt.tight_layout()
 plt.show()
 

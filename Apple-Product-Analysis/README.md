@@ -233,7 +233,7 @@ Each point represents a predicted demand value compared with the observed value 
 
 ## Feature Importance
 
-<img width="733" height="561" alt="image" src="https://github.com/isaac-rico/Analytics-Portfolio/tree/e076cfb83bbc2193fb71cda2bdb75dfd6a0edb16/Apple-Product-Analysis"/>
+<img width="733" height="561" alt="image" src="https://github.com/isaac-rico/Analytics-Portfolio/blob/274d41fe4f868c514308cbbe5b791b16bd6f2b37/Apple-Product-Analysis/Feature%20Importance.png"/>
 
 Feature importance analysis shows the strongest predictors of demand. Results are similar to that of the Linear Regression model:
 

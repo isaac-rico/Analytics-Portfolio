@@ -1,0 +1,9 @@
+SELECT
+    REVIEW_ID,
+    ORDER_ID,
+    REVIEW_SCORE,
+    REVIEW_COMMENT_TITLE,
+    REVIEW_COMMENT_MESSAGE,
+    REVIEW_CREATION_DATE,    
+    REVIEW_ANSWER_TIMESTAMP
+FROM {{ source('olist_raw', 'raw_order_reviews') }}

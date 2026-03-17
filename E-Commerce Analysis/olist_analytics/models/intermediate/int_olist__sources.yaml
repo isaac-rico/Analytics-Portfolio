@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: int_olist__order_payments
+    description: "Extracts payment information from orders"
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order"
+      - name: payment_sequential
+        description: "Sequence of payments for an order"
+      - name: payment_type
+        description: "Method of payment used for the order"
+      - name: payment_installments
+        description: "Number of installments for the payment"
+      - name: payment_value
+        description: "Total value of the payment"
+
+  - name: int_olist__order_reviews
+    description: "Aggregates review information for each order"
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order"
+      - name: avg_review_score
+        description: "Average review score for the order"
+      - name: num_reviews
+        description: "Total number of reviews for the order"
+      - name: most_recent_review_date
+        description: "Date of the most recent review for the order"
+
+  - name: int_olist__orders_enriched
+    description: "Enriches order information with customer, delivery, payment and review details"
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order"
+      - name: customer_id
+        description: "Unique identifier for each customer"
+      - name: order_status
+        description: "Current status of the order"
+      - name: order_purchase_timestamp
+        description: "Timestamp when the order was placed"
+      - name: total_payment_value
+        description: "Total value of the payment"
+      - name: avg_review_score
+        description: "Average review score for the order"
+      - name: delivery_days
+        description: "Number of days between order purchase and delivery"
+      - name: is_late_delivery
+        description: "Indicates if the order was delivered late"

@@ -194,3 +194,19 @@ https://docs.getdbt.com/docs/configure-your-profile
 [0m12:18:22.760491 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x145c9d370>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1048ee090>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ffb9310>]}
 [0m12:18:22.760858 [debug] [MainThread]: Flushing usage events
 [0m12:18:23.197358 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m16:19:52.729458 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106f5b2f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11295d1f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11295cf50>]}
+
+
+============================== 16:19:52.732663 | f3d6d081-844c-4d75-bdcb-920f2fb7ca7d ==============================
+[0m16:19:52.732663 [info ] [MainThread]: Running with dbt=1.11.7
+[0m16:19:52.732959 [debug] [MainThread]: running dbt with arguments {'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'log_format': 'default', 'quiet': 'False', 'printer_width': '80', 'invocation_command': 'dbt run --select int_olist__orders_enriched', 'static_parser': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'indirect_selection': 'eager', 'introspect': 'True', 'log_path': 'logs', 'empty': 'False', 'log_cache_events': 'False', 'target_path': 'None', 'profiles_dir': '/Users/isaac/.dbt', 'send_anonymous_usage_stats': 'True', 'use_colors': 'True', 'version_check': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'write_json': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])'}
+[0m16:19:52.733265 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/isaac/Desktop/Projects/Analytics-Portfolio/E-Commerce Analysis/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m16:19:52.738782 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": false, "command_wall_clock_time": 0.04394746, "process_in_blocks": "0", "process_kernel_time": 0.154297, "process_mem_max_rss": "113164288", "process_out_blocks": "0", "process_user_time": 0.559502}
+[0m16:19:52.738984 [debug] [MainThread]: Command `dbt run` failed at 16:19:52.738946 after 0.04 seconds
+[0m16:19:52.739127 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x111ec1df0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11295d100>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11295e7b0>]}
+[0m16:19:52.739261 [debug] [MainThread]: Flushing usage events
+[0m16:19:53.162028 [debug] [MainThread]: An error was encountered while trying to flush usage events

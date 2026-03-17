@@ -1,3 +1,5 @@
+-- Grain of this model: one row per order, with review information
+
 with reviews as (SELECT * FROM {{ ref('stg_olist__reviews') }})
 
 SELECT 

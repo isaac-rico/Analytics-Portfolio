@@ -5,5 +5,3 @@ SELECT
     CUSTOMER_CITY,
     CUSTOMER_STATE
 FROM {{ source('olist_raw', 'raw_customers') }}
-
-x

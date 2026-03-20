@@ -46,3 +46,39 @@ models:
         description: "Number of days between order purchase and delivery"
       - name: is_late_delivery
         description: "Indicates if the order was delivered late"
+
+  - name: int_olist__order_items_enriched
+    description: "Enriches order item information with product and seller details"
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order"
+      - name: order_item_id
+        description: "Unique identifier for each item in an order"
+      - name: product_id
+        description: "Unique identifier for each product"
+      - name: seller_id
+        description: "Unique identifier for each seller"
+      - name: price
+        description: "Price of the item"
+      - name: freight_value
+        description: "Freight value for the item"
+      - name: product_category_name
+        description: "Category of the product"
+      - name: seller_city
+        description: "City where the seller is located"
+      - name: seller_state
+        description: "State where the seller is located"
+
+  - name: int_olist__customer_order_summary
+    description: "Summarizes order information at the customer level"
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer"
+      - name: total_orders
+        description: "Total number of orders placed by the customer"
+      - name: total_payment_value
+        description: "Total value of payments made by the customer"
+      - name: avg_review_score
+        description: "Average review score given by the customer"
+      - name: most_recent_order_date
+        description: "Date of the most recent order placed by the customer"

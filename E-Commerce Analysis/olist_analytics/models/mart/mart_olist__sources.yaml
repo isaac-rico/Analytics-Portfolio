@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: mart_olist__sales__overview
+  - name: mart_olist__sales_overview
     description: "Monthly sales performance including total sales, revenue, etc."
     columns:
       - name: order_purchase_month

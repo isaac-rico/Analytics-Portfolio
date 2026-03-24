@@ -16,6 +16,7 @@ order_items as (
     group by order_id
 ),
 
+-- category ranks
 category_rank as (
     select
         order_id,
@@ -28,10 +29,11 @@ category_rank as (
     group by order_id, en_category_name
 ),
 
-primary_category as (
+-- top cateogry
+top_category as (
     select
         order_id,
-        en_category_name as primary_category
+        en_category_name as top_category
     from category_rank
     where rnk = 1
 )
@@ -65,16 +67,17 @@ SELECT
     oe.is_delivered,
 
     -- order item information
+    -- coalesce to 0 if null
     coalesce(oi.item_count, 0) as item_count,
     coalesce(oi.distinct_product_count, 0) as distinct_product_count,
     coalesce(oi.distinct_seller_count, 0) as distinct_seller_count,
     coalesce(oi.total_item_price, 0) as total_item_price,
     coalesce(oi.total_freight_value, 0) as total_freight_value,
     coalesce(oi.total_item_value, 0) as total_item_value,
-    pc.primary_category
+    tc.top_category
 
 from orders_enriched oe
 left join order_items oi
     on oe.order_id = oi.order_id
-left join primary_category pc
-    on oe.order_id = pc.order_id
+left join top_category tc
+    on oe.order_id = tc.order_id

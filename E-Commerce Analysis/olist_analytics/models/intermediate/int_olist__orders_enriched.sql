@@ -32,6 +32,7 @@ SELECT
     p.max_installments,
 
     -- review information
+    r.review_id,
     r.num_reviews,
     r.avg_review_score,
     r.most_recent_review_date,

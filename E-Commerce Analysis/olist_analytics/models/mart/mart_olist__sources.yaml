@@ -7,9 +7,6 @@ models:
   - name: mart_olist__category_performance
     description: "Category performance metrics including total sales, revenue, etc."
 
-  - name: mart_olist__monthly_sales_overview
-    description: "Monthly sales performance including total sales, revenue, etc."
-
   - name: mart_olist__seller_performance
     description: "Seller performance metrics including total sales, revenue, etc."
 

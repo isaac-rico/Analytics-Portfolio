@@ -2,7 +2,7 @@
 
 ## TL;DR
 [Dashboards](#final-mart-models-and-dashboards)
-- Built an end-to-end ECommerce analytics project using **dbt, Snowflake, and Apache Superset**
+- Built an end-to-end E-Commerce analytics project using **dbt, Snowflake, and Apache Superset**
 - Modeled raw Olist marketplace data into reusable intermediate models and dashboard-ready marts
 - Created a dashboard suite covering **executive sales overview, category performance, seller performance, and customer behavior
 - Designed analytics-ready tables at different grains to support KPI reporting, trend analysis, and performance breakdowns
@@ -12,16 +12,16 @@
 
 ## Project Overview
 
-This project analyzes the **Olist Brazilian Ecommerce dataset** to create a modern analytics workflow for reporting and business intelligence.
+This project analyzes the **Olist Brazilian E-commerce dataset** to create a modern analytics workflow for reporting and business intelligence.
 
-Using **dbt for transformation, Snowflake for warehousing, and Apache Superset for dashboarding**, I built a set of reusable data models and interactive dashboards to answer key ecommerce questions around:
+Using **dbt for transformation, Snowflake for warehousing, and Apache Superset for dashboarding**, I built a set of reusable data models and interactive dashboards to answer key e-commerce questions around:
 
 - sales performance
 - category trends
 - customer behavior
 - seller performance
 
-Unlike a single dashboard-only project, this project focuses on the full analytics engineering pipeline: taking raw ecommerce data, transforming it into clean business-ready models, and exposing those models through dashboard views tailored to different business questions.
+Unlike a single dashboard-only project, this project focuses on the full analytics engineering pipeline: taking raw e-commerce data, transforming it into clean business-ready models, and exposing those models through dashboard views tailored to different business questions.
 
 --- 
 
@@ -34,7 +34,7 @@ Unlike a single dashboard-only project, this project focuses on the full analyti
 - dimensional thinking and grain design
 - business performance analysis
 - data visualization
-- metric design for ecommerce reporting
+- metric design for e-commerce reporting
 
 --- 
 
@@ -261,6 +261,54 @@ Used for:
 <img width="2253" height="1315" alt="olist-seller-db" src="https://github.com/user-attachments/assets/9fbf48a0-c62d-408f-860f-905add997b54" />
 
 ---
+
+
+## SQL / Modeling Notes
+
+SQL was used throughout the project to shape reusable reporting models rather than writing queries for dashboards exclusively.
+
+A key design decision in this project was to use correct **grains** for each model:
+- order-level grain for sales overview/executive level reporting
+- category-month grain for category trend analysis
+- customer-level grain for customer behavior and analysis
+- seller-level grain for marketplace performance analysis
+
+This helped to keep dashboard queriying simpler and reduced the need to rebuild complex logic inside Superset.
+
+Helpful resource about dbt and snowflake modeling: [DBT Models in Snowflake: Best Practices for Staging, Intermediate, and Mart Layers](https://medium.com/@manik.ruet08/dbt-models-in-snowflake-best-practices-for-staging-intermediate-and-mart-layers-2abf37d08f65)
+
+---
+
+## Key Insights
+
+- Revenue is concentrated in a relatively small number of states and product categories
+- Customer ordering behavior is heavily skewed toward lower order counts, indicating that most customers are one-time buyers
+- Seller revenue is unevenly distributed, with a small number of sellers contributing a large share of marketplace revenue. 
+- Executive KPIs such as revenue, order volume, and average order value can be monitored from a single order-grain reporting mart.
+
+--- 
+
+## Future Improvements
+
+- Adding dbt tests and documentation across all marts
+- publishing dbt docs
+- expanding into fulfillment and delivery analysis
+- adding customer segmentation logic
+- adding seller performance scoring or benchmarking
+- improving dashboard interactivity
+
+--- 
+
+## Conclusion
+
+This project demonstrates how a modern analytics stack can be used to turn raw e-commerce marketplace data into clean, business-ready reporting assets.
+
+By combining dbt, Snowflake, and Apache Superset, I built a full pipeline that supports executive KPI reporting, category performance tracking, customer behavior analysis, and seller performance monitoring.
+
+The project reflects practical analytics engineering work: designing reusable data models, choosing appropriate grains for reporting, and building dashboards that balance executive visibility with deeper analytical detail.
+
+Thank you for reading,
+Isaac
 
 
 

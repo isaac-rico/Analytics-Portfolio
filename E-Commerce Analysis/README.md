@@ -307,8 +307,9 @@ By combining dbt, Snowflake, and Apache Superset, I built a full pipeline that s
 
 The project reflects practical analytics engineering work: designing reusable data models, choosing appropriate grains for reporting, and building dashboards that balance executive visibility with deeper analytical detail.
 
-Thank you for reading,
-Isaac
+Thank you for reading :D
+
+~Isaac
 
 
 

@@ -7,6 +7,6 @@ This is a collection of my projects related to Data Analytics/Data Engineering.
 [Global Apple Product Sales Analytics: Revenue and Demand Modeling](https://github.com/isaac-rico/Analytics-Portfolio/tree/3fa75f9ce035f301a8326a6364445b151fd081b4/Apple-Product-Analysis)
 - End-to-end analytics project using **PostgreSQL, Python, and Apache Superset**
 
-[Olist E-Commerce Analysis](https://github.com/isaac-rico/Analytics-Portfolio/tree/3fa75f9ce035f301a8326a6364445b151fd081b4/Olist-Analysis)
+[Olist E-Commerce Analysis](https://github.com/isaac-rico/Analytics-Portfolio/tree/36b6343b4f8fef9818c1efc89e3a8a932148090c/E-Commerce%20Analysis)
 - End-to-end e-commerce analytics pipeline using **dbt, Snowflake, and Apache Superset**
 

@@ -13,7 +13,7 @@ url = "https://stream.wikimedia.org/v2/stream/recentchange"
 
 headers = {
     "Accept": "text/event-stream",
-    "User-Agent": "isaacarnell.rico@gmail.com"
+    "User-Agent": "isaacarnell.rico2@gmail.com"
 }
 
 res = requests.get(url, stream=True, headers=headers)
@@ -21,8 +21,7 @@ client = SSEClient(res)
 
 total = 0
 non_english_count = 0
-bot_count = 0
-english_non_bot = 0
+# non_bot_english_count = 0
 
 for event in client.events():
     if time.time() >= end_time:
@@ -30,25 +29,19 @@ for event in client.events():
         break
     data = json.loads(event.data)
     total += 1
-    if data.get("wiki") != "enwiki": # if not enwiki continue, don't want non english
+    if data.get("bot") or data.get("wiki") != "enwiki": # if not enwiki continue, don't want non english
         non_english_count += 1
-        print("non english")
+        print("non english or bot")
         continue
-    if data.get("bot"): # if bot continue, don't want bots
-        bot_count += 1
-        print("bot")
-        continue
-    if data.get("bot") == False and data.get("wiki") == "enwiki": # if bot and not enwiki continue, don't want bots or non english
-        print("english non bot")
-        english_non_bot += 1
+    # if data.get("bot"): # if bot continue, don't want bots
+    #     non_bot_english_count += 1
+    #     print("bot")
+    #     continue
         
         
 print(f"Total events: {total}")
-print(f"English events: {total - non_english_count} \n Percentage of English events: {(total - non_english_count) / total * 100:.2f}%")
-print(f"Non-Bot events: {total - bot_count} \n Percentage of Non-Bot events: {(total - bot_count) / total * 100:.2f}%")
-print(f"English non-Bot events: {english_non_bot} \n Percentage of English non-Bot events: {english_non_bot / total * 100:.2f}%")
-
-
+print(f"Non-Bot English events: {total - non_english_count} \n Percentage of Non-bot English events: {(total - non_english_count) / total * 100:.2f}%")
+# print(f"Non-Bot English events: {non_bot_english_count} \n Percentage of Non-Bot English events: {non_bot_english_count / total * 100:.2f}%")
 # try:
 #     while True:
 #         pass

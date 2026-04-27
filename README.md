@@ -10,5 +10,5 @@ This is a collection of my projects related to Data Analytics/Data Engineering.
 [Olist E-Commerce Analysis](https://github.com/isaac-rico/Analytics-Portfolio/tree/602d6f3a511b834cce194507352c14867a8e8115/E-Commerce%20Analysis)
 - End-to-end e-commerce analytics pipeline using **dbt, Snowflake, and Apache Superset**
 
-WIP - Healthcare Ops Analysis 
-- End-to-end healthcare analytics project using **Tableau Public and SQL**
+WIP - Real-time Wikipedia Topic Trend Analysis
+- End-to-end Wikipedia analytics pipeline using **Kafka, Python, and PostgreSQL**

@@ -68,9 +68,18 @@ def send_to_kafka(producer, topic, stream):
 def flush_data(producer):
     return producer.flush()
 
+def check_producer_connection(producer):
+    try:
+        producer.bootstrap_connected()
+        print("Producer is connected to Kafka.")
+    except KafkaError as e:
+        logging.error(f"Producer connection error: {e}")
+        raise
+
 # main loop
 if __name__ == "__main__":
     producer = create_producer()
+    check_producer_connection(producer)
     reconnect_attempts = 0
 
     while True:

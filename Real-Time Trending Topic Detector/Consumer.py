@@ -86,7 +86,7 @@ def check_consumer_connection(consumer):
         logging.error(f"Consumer connection error: {e}")
         raise
 
-def write_batch(consumer, conn): # create batch, once batch hits 50 events, write to postgres, commit kafka offset, clear batch
+def write_batch(consumer, conn): # create batch, once batch hits 50 events, write to postgres, clear batch
     
     batch = []
     BATCH_SIZE = 50
@@ -98,7 +98,6 @@ def write_batch(consumer, conn): # create batch, once batch hits 50 events, writ
 
             if len(batch) >= BATCH_SIZE:
                 write_to_postgres(conn, batch)
-                consumer.commit()
                 batch = []
 
     except Exception as e:

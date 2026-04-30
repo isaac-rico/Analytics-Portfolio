@@ -26,8 +26,21 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     volumes:
       - kafka-data:/var/lib/kafka/data
+  
+  db:
+    image: postgres:16
+    container_name: pg-db
+    environment:
+      POSTGRES_USER: wiki
+      POSTGRES_PASSWORD: wiki
+      POSTGRES_DB: wikistream
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-db:/var/lib/postgresql/data
 
 volumes:
   zoo-data:
   zoo-log:
   kafka-data:
+  pg-db:

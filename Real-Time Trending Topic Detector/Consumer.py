@@ -9,6 +9,18 @@ process:
 
 '''
 
+'''
+write to postgres model:
+events coming off Kafka
+    1. accumulate in a list
+    2. when list hits 100 events OR 5 seconds have passed:
+        2a. write entire list to Postgres in one INSERT
+        2b. commit Kafka offset
+        2c. clear the list
+        2d. start accumulating again
+'''
+
+
 # imports
 from kafka import KafkaConsumer
 import json
@@ -24,9 +36,9 @@ from psycopg2.extras import execute_values, Json, DictCursor
 KAFKA_TOPIC = "wiki-edits"
 KAFKA_BOOTSTRAP_SERVERS = ["localhost:9092"]
 POSTGRES_CONFIG = {
-    'dbname': 'wiki',
-    'user': 'postgres',
-    'password': '12345',
+    'dbname': 'wikistream',
+    'user': 'wiki',
+    'password': 'wiki',
     'host': 'localhost',
     'port': 5432
 }
@@ -57,6 +69,7 @@ def create_consumer(retries: int = 10, delay: int = 5):
                 group_id='wiki-edit-consumers'
             )
             print("Kafka Consumer created successfully.")
+            check_consumer_connection(consumer)
             return consumer
 
         except KafkaError as e:
@@ -73,13 +86,31 @@ def check_consumer_connection(consumer):
         logging.error(f"Consumer connection error: {e}")
         raise
 
+def write_batch(consumer, conn): # create batch, once batch hits 50 events, write to postgres, commit kafka offset, clear batch
+    
+    batch = []
+    BATCH_SIZE = 50
+    
+    try:
+        for message in consumer:
+            event = message.value
+            batch.append(event)
+
+            if len(batch) >= BATCH_SIZE:
+                write_to_postgres(conn, batch)
+                consumer.commit()
+                batch = []
+
+    except Exception as e:
+        logging.error(f"Error writing batch to PostgreSQL: {e}")
+
 def write_to_postgres(conn, data):
     # implement logic to write data to postgres using insert ... on conflict do nothing
     with conn.cursor() as cursor:
         insert_query = """
-        INSERT INTO wiki_edits (page_id, user, timestamp, edit_type, wiki, is_bot, title)
-        VALUES %s
-        ON CONFLICT (page_id) DO NOTHING;
+        INSERT INTO wiki_edits (id, title, user, wiki, server_url, bot, time_utc, time_received)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT (id) DO NOTHING;
         """
         # example data to insert
         execute_values(cursor, insert_query, data)
@@ -88,17 +119,10 @@ def write_to_postgres(conn, data):
 
 if __name__ == "__main__":
     consumer = create_consumer()
-    check_consumer_connection(consumer)
     conn = create_postgres_conn()
 
     while True:
-        for message in consumer:
-            try:
-                write_to_postgres(conn, message.value)
-                consumer.commit()
-            except Exception as e:
-                logging.error(f"Error writing to PostgreSQL: {e}")
-
-            print(f"Received message: {message.value}")
-            # process data and write to postgres here
-            # if fail, use idemoptent writes to postgres using insert ... on conflict do nothing
+        try:
+            write_batch(consumer, conn)
+        except Exception as e:
+            logging.error(f"Error writing to PostgreSQL: {e}")

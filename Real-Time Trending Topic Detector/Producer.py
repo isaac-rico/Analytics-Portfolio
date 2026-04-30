@@ -1,5 +1,15 @@
 # Producer for Kafka
 
+'''
+process:
+    1. create kafka producer with retry attempts max 10
+    2. connect to wikipedia stream using SSEClient
+    3. filter data to enwiki and non bot edits
+    4. send data to kafka topic
+    5. flush data to ensure it's sent to kafka
+'''
+
+
 # imports 
 
 from kafka import KafkaProducer

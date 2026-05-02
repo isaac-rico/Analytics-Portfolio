@@ -26,7 +26,7 @@ KAKFA_TOPIC = "wiki-edits"
 KAFKA_BOOTSTRAP_SERVERS = ["localhost:9092"]
 LINK = "https://stream.wikimedia.org/v2/stream/recentchange"
 
-headers = {
+HEADERS = {
     "Accept": "text/event-stream",
     "User-Agent": "isaacarnell.rico@gmail.com"
 }
@@ -34,17 +34,44 @@ headers = {
 # functions
 
 def get_stream():
-    res = requests.get(LINK, stream=True, headers=headers)
-    client = SSEClient(res)
-
-    # filter data to english wikipedia data
-    for event in client.events():
-        data = json.loads(event.data)
-        # if bot and not enwiki continue, don't want bots or non english
+    print("Getting stream...")
+    res = requests.get(LINK, stream=True, headers=HEADERS)
+    
+    # ======= requests iter_lines METHOD =======
+    for line in res.iter_lines():
+        if not line:
+            continue
+        
+        # SSE data lines start with "data: "
+        line = line.decode("utf-8")
+        if not line.startswith("data:"):
+            continue
+        
+        # strip the "data: " prefix and parse the JSON
+        raw = line[len("data:"):].strip()
+        
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+        
         if data.get("bot") or data.get("wiki") != "enwiki":
             continue
+    
+    # ======= SSE CLIENT METHOD ======= <- this doesn't work 
+    # client = SSEClient(res)
 
-    yield data
+    # # filter data to english wikipedia data
+    # for event in client.events():
+    #     print("Event received...")
+    #     # if not event.data or event.data == "":
+    #     #     continue
+    #     data = json.loads(event.data)
+    #     # if bot and not enwiki continue, don't want bots or non english
+    #     if data.get("bot") or data.get("wiki") != "enwiki":
+    #         continue
+
+        yield data
 
 # create a producer that connects to kafka, with retry attempts max 10
 def create_producer(retries: int = 10, delay: int = 5):
@@ -70,9 +97,11 @@ def create_producer(retries: int = 10, delay: int = 5):
 # pull wikipedia edits, filter, send to kafka topic
 def send_to_kafka(producer, topic, stream):
     # send data to kafka topic
-    for data in stream:
-        producer.send(topic, value=data)
-    return
+    try:
+        for data in stream:
+            producer.send(topic, value=data)
+    except KafkaError as e:
+        logging.error(f"Kafka error while sending data: {e}")    
 
 # flush data
 def flush_data(producer):
@@ -110,6 +139,9 @@ if __name__ == "__main__":
             producer.close()
             print("Stream stopped by user.")
             break
+        
+        except Exception as e:
+            logging.error(f"Error sending data to Kafka: {e}")
 
 
     

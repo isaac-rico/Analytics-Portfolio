@@ -17,13 +17,17 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "9092:9092"
+      - 9092:9092
+      - 3040:3040
     environment:
+      ADV_HOST: 127.0.0.1
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      WEB_PORT: 3040
+      BROKER_PORT: 9092
     volumes:
       - kafka-data:/var/lib/kafka/data
   
@@ -35,9 +39,10 @@ services:
       POSTGRES_PASSWORD: wiki
       POSTGRES_DB: wikistream
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - pg-db:/var/lib/postgresql/data
+      - ./tables.sql:/docker-entrypoint-initdb.d/tables.sql
 
 volumes:
   zoo-data:

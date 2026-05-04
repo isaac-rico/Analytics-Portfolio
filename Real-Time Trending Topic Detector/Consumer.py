@@ -119,6 +119,7 @@ def write_batch(consumer, conn): # create batch, once batch hits 50 events, writ
                 event.get('server_url'),
                 event.get('type'),
                 event.get('bot'),
+                event.get('length', {}).get('new', 0) - event.get('length', {}).get('old', 0),
                 datetime.fromtimestamp(event.get("timestamp"), tz=UTC).isoformat(),
                 datetime.fromtimestamp(int(time.time()), tz=UTC).isoformat()
             ))
@@ -160,7 +161,7 @@ def write_to_postgres(conn, data):
     with conn.cursor() as cursor:
         
         insert_query = """
-        INSERT INTO wiki_edits (id, title, username, wiki, server_url, edit_type, bot, time_utc, time_received)
+        INSERT INTO wiki_edits (id, title, username, wiki, server_url, edit_type, bytes_changed, bot, time_utc, time_received)
         VALUES %s
         ON CONFLICT (id) DO NOTHING;
         """

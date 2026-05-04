@@ -61,6 +61,10 @@ def get_stream():
         # filter to only english wiki edits
         if data.get("wiki") != "enwiki":
             continue
+
+        # filter to only edits
+        if data.get("type") != "edit":
+            continue
  
         yield data
 

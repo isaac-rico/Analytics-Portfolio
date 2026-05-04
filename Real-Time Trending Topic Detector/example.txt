@@ -1,7 +1,5 @@
 event: message
 id: [{"topic":"eqiad.mediawiki.recentchange","partition":0,"timestamp":1777587429852},{"topic":"codfw.mediawiki.recentchange","partition":0,"offset":-1}]
-
-
 data: {"$schema":"/mediawiki/recentchange/1.0.0",
        "meta":{"uri":"https://en.wikipedia.org/wiki/Category:Lists_of_California_politicians",
        "request_id":"beeba38c-ec5e-4493-9946-a6399357a1f3",
@@ -10,7 +8,8 @@ data: {"$schema":"/mediawiki/recentchange/1.0.0",
        "stream":"mediawiki.recentchange",
        "dt":"2026-04-30T22:17:09.851Z",
        "topic":"eqiad.mediawiki.recentchange",
-       "partition":0,"offset":6082910300},
+       "partition":0,
+       "offset":6082910300},
        "id":2022359595,
        "type":"categorize",
        "namespace":14,
@@ -32,3 +31,34 @@ data: {"$schema":"/mediawiki/recentchange/1.0.0",
                         <a href=\"/wiki/Special:WhatLinksHere/African_American_mayors_in_California\" 
                            title=\"Special:WhatLinksHere/African American mayors in California\">
                            this page is included within other pages</a>"}
+
+
+event: message
+id: [{"topic":"eqiad.mediawiki.recentchange","partition":0,"timestamp":1777932006395},{"topic":"codfw.mediawiki.recentchange","partition":0,"offset":-1}]
+data: {"$schema":"/mediawiki/recentchange/1.0.0",
+       "meta":{"uri":"https://en.wikipedia.org/wiki/Cyanea_truncata",
+       "request_id":"35c7e5d9-f952-4119-96e7-a782ba0c4e41",
+       "id":"b15298b4-3dc1-4f73-8281-acbe23538463",
+       "domain":"en.wikipedia.org",
+       "stream":"mediawiki.recentchange",
+       "dt":"2026-05-04T22:00:06.394Z",
+       "topic":"eqiad.mediawiki.recentchange",
+       "partition":0,"offset":6099096395},
+       "id":2023564553,
+       "type":"edit",
+       "namespace":0,
+       "title":"Cyanea truncata",
+       "title_url":"https://en.wikipedia.org/wiki/Cyanea_truncata",
+       "comment":"Changing [[Wikipedia:Short description|short description]] from \"Species of plant\" to \"Species of flowering plant\"",
+       "timestamp":1777932004,
+       "user":"UtherSRG",
+       "bot":false,
+       "notify_url":"https://en.wikipedia.org/w/index.php?diff=1352553852&oldid=1352475344",
+       "minor":false,
+       "length":{"old":3362,"new":3372},
+       "revision":{"old":1352475344,"new":1352553852},
+       "server_url":"https://en.wikipedia.org",
+       "server_name":"en.wikipedia.org",
+       "server_script_path":"/w",
+       "wiki":"enwiki",
+       "parsedcomment":"Changing <a href=\"/wiki/Wikipedia:Short_description\" title=\"Wikipedia:Short description\">short description</a> from &quot;Species of plant&quot; to &quot;Species of flowering plant&quot;"}

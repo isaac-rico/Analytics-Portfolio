@@ -40,6 +40,12 @@ def read_root():
 def health():
     return {"status": "ok"}
 
+
+'''
+trending flow:
+    1. pull data from trending table
+    2. 
+'''
 @app.get("/trending")
 def trending():
     pass

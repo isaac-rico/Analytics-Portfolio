@@ -14,7 +14,6 @@ process:
 
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
-from sseclient import SSEClient
 import requests
 import json
 import time
@@ -37,7 +36,7 @@ def get_stream():
     print("Getting stream...")
     res = requests.get(LINK, stream=True, headers=HEADERS)
     
-    # ======= requests iter_lines METHOD =======
+    # ======= requests iter_lines method =======
     for line in res.iter_lines():
         if not line:
             continue
@@ -55,22 +54,14 @@ def get_stream():
         except json.JSONDecodeError:
             continue
         
-        if data.get("bot") or data.get("wiki") != "enwiki":
+        # if bot entries are needed, comment this out
+        if data.get("bot"):
             continue
-    
-    # ======= SSE CLIENT METHOD ======= <- this doesn't work 
-    # client = SSEClient(res)
-
-    # # filter data to english wikipedia data
-    # for event in client.events():
-    #     print("Event received...")
-    #     # if not event.data or event.data == "":
-    #     #     continue
-    #     data = json.loads(event.data)
-    #     # if bot and not enwiki continue, don't want bots or non english
-    #     if data.get("bot") or data.get("wiki") != "enwiki":
-    #         continue
-
+        
+        # filter to only english wiki edits
+        if data.get("wiki") != "enwiki":
+            continue
+ 
         yield data
 
 # create a producer that connects to kafka, with retry attempts max 10

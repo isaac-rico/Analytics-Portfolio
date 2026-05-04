@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS trending_topics (
     wiki text,
     edit_count int,
     unique_editors int,
-    window_start timestamp,
-    window_end timestamp,
-    time_utc timestamp default now()
+    first_edit timestamp,
+    last_edit timestamp,
+    time_computed timestamp default now()
 );

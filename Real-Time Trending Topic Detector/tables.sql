@@ -14,14 +14,13 @@ CREATE TABLE IF NOT EXISTS wiki_edits (
 );
 
 CREATE TABLE IF NOT EXISTS trending_topics (
-    id SERIAL primary key,
-    title text unique,
-    wiki text unique,
+    title text primary key,
     edit_count int,
     unique_editors int,
     total_bytes_changed int,
     avg_bytes_changed int,
     velocity int,
+    trend text,
     first_edit timestamp,
     last_edit timestamp,
     time_computed timestamp default now()

@@ -120,6 +120,7 @@ if __name__ == "__main__":
         try:    
             data = get_stream()
             send_to_kafka(producer, KAKFA_TOPIC, data)
+            print("Data sent to Kafka.")
         
         except KafkaError as e:
             logging.error(f"Kafka error: {e}")

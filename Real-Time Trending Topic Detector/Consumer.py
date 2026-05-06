@@ -161,7 +161,7 @@ def write_to_postgres(conn, data):
     with conn.cursor() as cursor:
         
         insert_query = """
-        INSERT INTO wiki_edits (id, title, username, wiki, server_url, edit_type, bytes_changed, bot, time_utc, time_received)
+        INSERT INTO wiki_edits (id, title, username, wiki, server_url, edit_type, bot, bytes_changed, time_utc, time_received)
         VALUES %s
         ON CONFLICT (id) DO NOTHING;
         """

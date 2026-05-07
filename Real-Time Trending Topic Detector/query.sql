@@ -33,7 +33,8 @@ with prev_window as (
                     max(time_utc) as last_edit,
                     now() as time_computed
                 FROM wiki_edits 
-                where time_received > now() - interval '10 minutes' and time_received <= now() - interval '5 minutes'
+                where time_received > now() - interval '10 minutes'
+                and time_received <= now() - interval '5 minutes'
                 group by title
                 order by time_computed desc
             ),

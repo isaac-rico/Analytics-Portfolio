@@ -7,15 +7,7 @@ import psycopg2
 import requests
 from sseclient import SSEClient
 
-# configs
-
-POSTGRES_CONFIG = {
-    'dbname': 'wikistream',
-    'user': 'wiki',
-    'password': 'wiki',
-    'host': 'localhost',
-    'port': 5432
-}
+from config import POSTGRES_CONFIG
 
 app = FastAPI(
         title="Wikipedia Stream API",
@@ -24,13 +16,7 @@ app = FastAPI(
     )
 
 def get_db_conn():
-    conn = psycopg2.connect(
-        dbname=POSTGRES_CONFIG['dbname'],
-        user=POSTGRES_CONFIG['user'],
-        password=POSTGRES_CONFIG['password'],
-        host=POSTGRES_CONFIG['host'],
-        port=POSTGRES_CONFIG['port']
-        )
+    conn = psycopg2.connect(**POSTGRES_CONFIG)
     try:
         yield conn
     finally:

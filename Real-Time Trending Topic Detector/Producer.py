@@ -19,22 +19,14 @@ import json
 import time
 import logging 
 
-# configs
-
-KAKFA_TOPIC = "wiki-edits"
-KAFKA_BOOTSTRAP_SERVERS = ["localhost:9092"]
-LINK = "https://stream.wikimedia.org/v2/stream/recentchange"
-
-HEADERS = {
-    "Accept": "text/event-stream",
-    "User-Agent": "isaacarnell.rico@gmail.com"
-}
+# configs in config.py
+from config import KAFKA_BOOTSTRAP_SERVERS, KAFKA_TOPIC, WIKI_STREAM_URL, HEADERS
 
 # functions
 
 def get_stream():
     print("Getting stream...")
-    res = requests.get(LINK, stream=True, headers=HEADERS)
+    res = requests.get(WIKI_STREAM_URL, stream=True, headers=HEADERS)
     
     # ======= requests iter_lines method =======
     for line in res.iter_lines():
@@ -119,7 +111,7 @@ if __name__ == "__main__":
     while True:
         try:    
             data = get_stream()
-            send_to_kafka(producer, KAKFA_TOPIC, data)
+            send_to_kafka(producer, KAFKA_TOPIC, data)
             print("Data sent to Kafka.")
         
         except KafkaError as e:

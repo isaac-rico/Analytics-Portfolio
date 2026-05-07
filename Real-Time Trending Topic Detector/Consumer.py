@@ -34,15 +34,7 @@ from psycopg2.extras import execute_values, Json, DictCursor
 from datetime import datetime, UTC
 
 # configs
-KAFKA_TOPIC = "wiki-edits"
-KAFKA_BOOTSTRAP_SERVERS = ["localhost:9092"]
-POSTGRES_CONFIG = {
-    'dbname': 'wikistream',
-    'user': 'wiki',
-    'password': 'wiki',
-    'host': 'localhost',
-    'port': 5432
-}
+from config import KAFKA_BOOTSTRAP_SERVERS, KAFKA_TOPIC, POSTGRES_CONFIG
 
 # # for timing analysis
 # times = []
@@ -51,13 +43,7 @@ POSTGRES_CONFIG = {
 def create_postgres_conn(retries: int = 10, delay: int = 5):
     for attempt in range(1, retries + 1):
         try:
-            conn = psycopg2.connect(
-                dbname=POSTGRES_CONFIG['dbname'],
-                user=POSTGRES_CONFIG['user'],
-                password=POSTGRES_CONFIG['password'],
-                host=POSTGRES_CONFIG['host'],
-                port=POSTGRES_CONFIG['port']
-            )
+            conn = psycopg2.connect(**POSTGRES_CONFIG)
             print("PostgreSQL connection established successfully.")
             return conn
 

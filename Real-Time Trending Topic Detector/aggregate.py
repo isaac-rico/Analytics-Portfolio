@@ -6,33 +6,38 @@ import schedule
 import time
 import logging
 
-POSTGRES_CONFIG = {
-    'dbname': 'wikistream',
-    'user': 'wiki',
-    'password': 'wiki',
-    'host': 'localhost',
-    'port': 5432
-}
+from config import POSTGRES_CONFIG
 
 def create_postgres_conn(retries: int = 10, delay: int = 5):
     for attempt in range(1, retries + 1):
         try:
-            conn = psycopg2.connect(
-                dbname=POSTGRES_CONFIG['dbname'],
-                user=POSTGRES_CONFIG['user'],
-                password=POSTGRES_CONFIG['password'],
-                host=POSTGRES_CONFIG['host'],
-                port=POSTGRES_CONFIG['port']
-            )
-            print("PostgreSQL connection established successfully.")
+            conn = psycopg2.connect(**POSTGRES_CONFIG)
+            print("Postgres connection established successfully.")
             return conn
 
         except psycopg2.Error as e:
-            logging.warning(f"Error connecting to PostgreSQL: {e}, Attempt {attempt} of {retries}")
+            logging.warning(f"Error connecting to postgres: {e}, Attempt {attempt} of {retries}")
             time.sleep(delay)
-    raise RuntimeError("Failed to connect to PostgreSQL after multiple attempts.")
+    raise RuntimeError("Failed to connect to postgres after multiple attempts.")
+
+# determine window size based on num of events
+def get_window_size(conn):
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT count(*) FROM raw_edits")
+        count = cursor.fetchone()[0]
+
+        if count < 500:
+            return 2
+        if count < 1500:
+            return 5
+        if count < 3000:
+            return 15
+        if count < 5000:
+            return 30
 
 def trending_query(conn):
+    window_size = get_window_size(conn)
+    print(f"window size: {window_size}")
 
     with conn.cursor() as cursor:
         query = """
@@ -47,7 +52,8 @@ def trending_query(conn):
                     max(time_utc) as last_edit,
                     now() as time_computed
                 FROM wiki_edits 
-                where time_received > now() - interval '10 minutes' and time_received <= now() - interval '5 minutes'
+                where time_received > now() - interval '%s minutes'
+                and time_received <= now() - interval '%s minutes' 
                 group by title
                 order by time_computed desc
             ),
@@ -63,7 +69,7 @@ def trending_query(conn):
                     max(time_utc) as last_edit,
                     now() as time_computed
                 FROM wiki_edits 
-                where time_received > now() - interval '5 minutes'
+                where time_received > now() - interval '%s minutes'
                 group by title
                 order by time_computed desc
             ),
@@ -96,7 +102,7 @@ def trending_query(conn):
             left join velocity v on curr_window.title = v.title 
         """
 
-        cursor.execute(query)
+        cursor.execute(query, (window_size*2, window_size, window_size))
         results = cursor.fetchall()
 
     return results
@@ -132,13 +138,14 @@ def write_to_table(conn, data):
         execute_values(cursor, insert_query, data)
     conn.commit()
 
-def ping_conn(conn):
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute("SELECT 1")
-        return conn
-    except psycopg2.OperationalError:
-        return create_postgres_conn()
+## uncomment if connection check is needed
+# def ping_conn(conn):
+#     try:
+#         with conn.cursor() as cursor:
+#             cursor.execute("SELECT 1")
+#         return conn
+#     except psycopg2.OperationalError:
+#         return create_postgres_conn()
 
 def main(conn):
     results = trending_query(conn)
@@ -149,11 +156,11 @@ if __name__ == "__main__":
     conn = create_postgres_conn()
     count = 0
     try:
-        # schedule to run query every minute
+        # schedule to run query every 5 minutes
         schedule.every(5).minutes.do(lambda: main(conn))
 
         while True:
-            conn = ping_conn(conn)
+            # conn = ping_conn(conn) # uncomment if connection check is needed
             schedule.run_pending()
             time.sleep(1)
             count += 1

@@ -34,3 +34,7 @@ HEADERS = {
     "Accept": "text/event-stream",
     "User-Agent": os.getenv('USER_AGENT')
 }
+
+# Other configs
+BATCH_SIZE = int(os.getenv('BATCH_SIZE', 50))
+LIMIT = int(os.getenv('LIMIT', 10))

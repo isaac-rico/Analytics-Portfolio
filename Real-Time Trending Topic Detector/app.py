@@ -1,13 +1,25 @@
 # fastapi app to run the real-time trending topic detector
 
-import json
 import logging
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, Depends, JSONResponse
 import psycopg2
-import requests
-from sseclient import SSEClient
+from psycopg2.extras import RealDictCursor
+from pydantic import BaseModel
+from datetime import datetime
+from config import POSTGRES_CONFIG, LIMIT
 
-from config import POSTGRES_CONFIG
+class Trending(BaseModel):
+    title: str
+    edit_count: int
+    unique_editors: int
+    total_bytes_changed: int
+    avg_bytes_changed: int
+    velocity: float
+    trend: str
+    first_edit: datetime
+    last_edit: datetime
+    time_computed: datetime
+    
 
 app = FastAPI(
         title="Wikipedia Stream API",
@@ -38,11 +50,33 @@ trending flow:
         b. how often
     2. display trending topics
 '''
-@app.get("/trending")
-def trending(conn = Depends(get_db_conn)):
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT * FROM trending_topics")
+@app.get("/trending", response_model=list[Trending])
+def trending(limit: int = LIMIT, conn = Depends(get_db_conn)):
+    with conn.cursor(cursor=RealDictCursor) as cursor:
+        '''
+        TRENDING:
+            determined by velocity multiplied by edit count
+            this shows topics that are both active and accelerating in velocity 
+            (velocity meaning if num of edits are increasing/decreasing from previous window to current window, num is the magnitude of the change)
+            trending = positive velocity -- more edits than previous window
+            not trending = negative velocity -- less edits than previous window
+            stable = 0
+        '''
+        query = """
+            SELECT 
+                * -- mayb change later for more specifics 
+            FROM trending_topics 
+            ORDER by velocity * edit count DESC 
+            LIMIT %s
+        """
+        cursor.execute(query, (limit))
         data = cursor.fetchall()
+
+        if not data:
+            return JSONResponse(
+                status_code=201,
+                content={"message": "pipeline warming up, please wait"},
+            )
     return data
 
 

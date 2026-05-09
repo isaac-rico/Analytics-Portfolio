@@ -1,7 +1,9 @@
 # fastapi app to run the real-time trending topic detector
 
+import uvicorn
 import logging
-from fastapi import FastAPI, Depends, JSONResponse
+from fastapi import FastAPI, Depends
+from fastapi.responses import HTMLResponse
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
@@ -13,7 +15,7 @@ class Trending(BaseModel):
     edit_count: int
     unique_editors: int
     total_bytes_changed: int
-    avg_bytes_changed: int
+    avg_bytes_changed: float
     velocity: float
     trend: str
     first_edit: datetime
@@ -34,9 +36,11 @@ def get_db_conn():
     finally:
         conn.close()
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def read_root():
-    return {"message": "wiki stream API is running"}
+    return """
+    hello i will put in frontend soon
+    """
 
 @app.get("/health")
 def health():
@@ -52,7 +56,7 @@ trending flow:
 '''
 @app.get("/trending", response_model=list[Trending])
 def trending(limit: int = LIMIT, conn = Depends(get_db_conn)):
-    with conn.cursor(cursor=RealDictCursor) as cursor:
+    with conn.cursor(cursor_factory=RealDictCursor) as cursor:
         '''
         TRENDING:
             determined by velocity multiplied by edit count
@@ -66,18 +70,15 @@ def trending(limit: int = LIMIT, conn = Depends(get_db_conn)):
             SELECT 
                 * -- mayb change later for more specifics 
             FROM trending_topics 
-            ORDER by velocity * edit count DESC 
+            ORDER by velocity * edit_count DESC 
             LIMIT %s
         """
-        cursor.execute(query, (limit))
+        cursor.execute(query, (limit,))
         data = cursor.fetchall()
 
         if not data:
-            return JSONResponse(
-                status_code=201,
-                content={"message": "pipeline warming up, please wait"},
-            )
-    return data
+            return []
+    return [Trending(**row) for row in data]
 
 
 ''' 
@@ -96,3 +97,7 @@ def stats(conn = Depends(get_db_conn)):
         cursor.execute("SELECT * FROM wiki_edits") # sample query, fix later
         data = cursor.fetchall()
     return data
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

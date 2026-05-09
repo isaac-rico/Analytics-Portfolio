@@ -23,16 +23,16 @@ def create_postgres_conn(retries: int = 10, delay: int = 5):
 # determine window size based on num of events
 def get_window_size(conn):
     with conn.cursor() as cursor:
-        cursor.execute("SELECT count(*) FROM raw_edits")
+        cursor.execute("SELECT count(*) FROM wiki_edits")
         count = cursor.fetchone()[0]
 
         if count < 500:
             return 2
-        if count < 1500:
+        elif count < 1500:
             return 5
-        if count < 3000:
+        elif count < 3000:
             return 15
-        if count < 5000:
+        elif count < 5000:
             return 30
 
 def trending_query(conn):
@@ -147,6 +147,12 @@ def write_to_table(conn, data):
 #     except psycopg2.OperationalError:
 #         return create_postgres_conn()
 
+def truncate(conn):
+    with conn.cursor() as cursor:
+        cursor.execute("TRUNCATE TABLE trending_topics")
+    conn.commit()
+    print("Table truncated successfully.")
+
 def main(conn):
     results = trending_query(conn)
     write_to_table(conn, results)
@@ -154,10 +160,12 @@ def main(conn):
 
 if __name__ == "__main__":
     conn = create_postgres_conn()
+    truncate(conn) # truncate table for new data -- comment out if historical data is needed
     count = 0
+
     try:
         # schedule to run query every 5 minutes
-        schedule.every(5).minutes.do(lambda: main(conn))
+        schedule.every(3).minutes.do(lambda: main(conn))
 
         while True:
             # conn = ping_conn(conn) # uncomment if connection check is needed

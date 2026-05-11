@@ -1,7 +1,6 @@
 # fastapi app to run the real-time trending topic detector
 
 import uvicorn
-import logging
 from fastapi import FastAPI, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,6 +21,12 @@ class Trending(BaseModel):
     first_edit: datetime
     last_edit: datetime
     time_computed: datetime
+
+class Stats(BaseModel):
+    total_edits: int
+    edits_per_minute: int
+    articles_tracked: int
+    last_aggregation: datetime
     
 
 app = FastAPI(
@@ -31,12 +36,12 @@ app = FastAPI(
     )
 
 origins = [
-    "http://localhost:8000"
+    "http://localhost:5173"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -94,7 +99,49 @@ def trending(limit: int = LIMIT, conn = Depends(get_db_conn)):
             return []
     return [Trending(**row) for row in data]
 
+@app.get("/trending/rising", response_model=list[Trending])
+def rising(limit: int = LIMIT, conn = Depends(get_db_conn)):
+    with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+        '''
+        RISING:
+            determined by positive velocity -- accelerating in velocity meaning more edits than previous window
+        '''
+        query = """
+            SELECT 
+                *
+            FROM trending_topics 
+            where trend = 'trending'
+            ORDER by velocity DESC
+            LIMIT %s
+        """
+        cursor.execute(query, (limit,))
+        data = cursor.fetchall()
 
+        if not data:
+            return []
+    return [Trending(**row) for row in data]
+
+@app.get("/trending/not trending", response_model=list[Trending])
+def not_trending(limit: int = LIMIT, conn = Depends(get_db_conn)):
+    with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+        '''
+        NOT TRENDING:
+            determined by negative velocity -- losing momentum meaning less edits than previous window
+        '''
+        query = """
+            SELECT 
+                *
+            FROM trending_topics 
+            where trend = 'not trending'
+            ORDER by velocity ASC
+            LIMIT %s
+        """
+        cursor.execute(query, (limit,))
+        data = cursor.fetchall()
+
+        if not data:
+            return []
+    return [Trending(**row) for row in data]
 ''' 
 overall statistics:
     1. aggregated metrics
@@ -107,10 +154,17 @@ overall statistics:
 '''
 @app.get("/stats")
 def stats(conn = Depends(get_db_conn)):
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT * FROM wiki_edits") # sample query, fix later
-        data = cursor.fetchall()
-    return data
+    with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+        query = """
+            SELECT 
+                (SELECT COUNT(*) AS total_edits FROM wiki_edits) AS total_edits,
+                (SELECT COUNT(*) as edits_per_minute from wiki_edits where time_received > now() - INTERVAL '1 minute') AS edits_per_minute,
+                (SELECT COUNT(DISTINCT title) FROM trending_topics) AS articles_tracked,
+                (SELECT max(time_computed) FROM trending_topics) AS last_aggregation;
+            """
+        cursor.execute(query) # sample query, fix later
+        data = cursor.fetchone()
+    return Stats(**data)
 
 
 if __name__ == "__main__":

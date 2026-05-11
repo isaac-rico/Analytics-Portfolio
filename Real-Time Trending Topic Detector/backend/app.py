@@ -164,6 +164,8 @@ def stats(conn = Depends(get_db_conn)):
             """
         cursor.execute(query) # sample query, fix later
         data = cursor.fetchone()
+        if not data:
+            return Stats(total_edits=0, edits_per_minute=0, articles_tracked=0, last_aggregation=datetime.now())
     return Stats(**data)
 
 

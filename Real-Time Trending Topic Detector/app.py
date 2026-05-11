@@ -4,6 +4,7 @@ import uvicorn
 import logging
 from fastapi import FastAPI, Depends
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
@@ -29,7 +30,20 @@ app = FastAPI(
         version="1.0.0",
     )
 
+origins = [
+    "http://localhost:8000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 def get_db_conn():
+    
     conn = psycopg2.connect(**POSTGRES_CONFIG)
     try:
         yield conn

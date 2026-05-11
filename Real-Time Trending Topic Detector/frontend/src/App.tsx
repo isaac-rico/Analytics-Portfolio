@@ -112,7 +112,7 @@ export default function App() {
   const tabs: { key: Tab; label: string; desc: string }[] = [
     { key: "trending", label: "All Topics", desc: "ranked by velocity × edits" },
     { key: "rising", label: "Rising", desc: "accelerating now" },
-    { key: "not trending", label: "not trending", desc: "losing momentum" },
+    { key: "not trending", label: "Not Trending", desc: "losing momentum" },
     { key: "stats", label: "Pipeline Stats", desc: "system health" },
   ];
 

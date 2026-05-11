@@ -160,7 +160,7 @@ def main(conn):
 
 if __name__ == "__main__":
     conn = create_postgres_conn()
-    truncate(conn) # truncate table for new data -- comment out if historical data is needed
+    #truncate(conn) # truncate table for new data -- comment out if historical data is needed
     count = 0
 
     try:

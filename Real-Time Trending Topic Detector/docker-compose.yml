@@ -35,14 +35,16 @@ services:
     image: postgres:16
     container_name: pg-db
     environment:
-      POSTGRES_USER: wiki
-      POSTGRES_PASSWORD: wiki
-      POSTGRES_DB: wikistream
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PW}
+      POSTGRES_DB: ${POSTGRES_DB}  
     ports:
       - 5432:5432
     volumes:
       - pg-db:/var/lib/postgresql/data
-      - ./tables.sql:/docker-entrypoint-initdb.d/tables.sql
+      - ./backend/tables.sql:/docker-entrypoint-initdb.d/tables.sql
+    env_file:
+      - .env
 
 volumes:
   zoo-data:

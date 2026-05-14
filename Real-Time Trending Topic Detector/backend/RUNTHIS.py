@@ -70,6 +70,4 @@ try:
 
 except KeyboardInterrupt:
     print("Shutting down...")
-    for p in processes:
-        print(f"Terminating process {p.pid}...")
-        p.kill()
+    subprocess.run(["killall", "python3"])

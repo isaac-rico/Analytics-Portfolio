@@ -38,7 +38,7 @@ Unlike a single dashboard-only project, this project focuses on the full analyti
 
 --- 
 
-## Tools and & Technologies
+## Tools and Technologies
 
 - **Transformation:** dbt
 - **Warehouse:** Snowflake

@@ -70,4 +70,7 @@ try:
 
 except KeyboardInterrupt:
     print("Shutting down...")
-    subprocess.run(["killall", "python3"])
+    if sys.platform == "win32":
+        subprocess.run(["taskkill", "/F", "/IM", "python.exe"])
+    else:
+        subprocess.run(["killall", "python3"])

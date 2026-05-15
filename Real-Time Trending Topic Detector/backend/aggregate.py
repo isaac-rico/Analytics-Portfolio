@@ -164,8 +164,8 @@ if __name__ == "__main__":
     count = 0
 
     try:
-        # schedule to run query every 5 minutes
-        schedule.every(3).minutes.do(lambda: main(conn))
+        # schedule to run query every 2 minutes
+        schedule.every(2).minutes.do(lambda: main(conn))
 
         while True:
             # conn = ping_conn(conn) # uncomment if connection check is needed

@@ -34,6 +34,8 @@ def get_window_size(conn):
             return 15
         elif count < 5000:
             return 30
+        else:
+            return 30
 
 def trending_query(conn):
     window_size = get_window_size(conn)
@@ -155,6 +157,11 @@ def truncate(conn):
 
 def main(conn):
     results = trending_query(conn)
+
+    if not results:
+        print("no data to update")
+        return
+    
     write_to_table(conn, results)
     print("trending topics updated")
 

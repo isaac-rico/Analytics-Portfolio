@@ -18,6 +18,9 @@ This pipeline is always running, as the producer maintains a constant connection
 
 The project focuses on the full data engineering lifecycle: stream ingestion, message brokering, batched storage, time-windowed aggregation, API serving, and frontend visualization. This is all running locally via Docker Compose.
 
+Why this kind of project?
+*I wanted to expand my breadth of knowledge with various data tools, more specifically utilizing a real-time event streaming platform like Kafka, to produce visualized results based on continous influxes of data. This project is more structured than my previous projects, as common best-practice techniques were implemented such as using Kafka's offset system with a commit after a successful batched postgres write, python-dotenv, docker compose, a REST API implementation, and logging with error detection.*
+
 --- 
 
 ## Skills Demonstrated
@@ -39,3 +42,70 @@ The project focuses on the full data engineering lifecycle: stream ingestion, me
 --- 
 
 ## Tools & Technologies
+
+- **Data Stream Source**: Wikipedia SSE Stream
+- **Message Broker**: Apache Kafka
+- **Storage**: PostgreSQL
+- **Backend**: FastAPI + uvicorn, psycopg2
+- **Aggregation**: Python + SQL
+- **Frontend**: React + Typescript + Axios (FastAPI integration)
+- **Orchestration**: Docker Compose
+- **Configuration**: python-dotenv
+
+--- 
+
+## Data Source
+
+**Source**: Wikimedia Foundation - [Recent Changes SSE Stream](https://stream.wikimedia.org/v2/stream/recentchange)
+
+This link is a free, public server-side event stream for every Wikimedia edit worldwide. No API key is needed for requests, just need a valid ```User-Agent``` header identifying the client (just use an email, you're allowed 200 requests/email I believe).
+
+**Filters Applied at Ingestion**: 
+- ```wiki == "enwiki"``` - English Wikipedia only
+- ```bot == false``` - ignore bots
+- ```type == "edit"``` - only edits, dropping ```categorize``` and ```new``` page events
+
+**Core Fields Used:**
+- ```id```
+- ```title```
+- ```user```
+- ```wiki```
+- ```server_url```
+- ```type```
+- ```bot```
+- ```bytes_changed```
+- ```time_utc```
+
+--- 
+
+## Project Pipeline
+```
+Wikipedia SSE Stream
+     ↓
+Python Producer 
+(filters + event serialization)
+     ↓
+Kafka Topic
+(wiki-edits)
+     ↓
+Python Consumer
+(batched writes, manual offset commits)
+     ↓
+PostgreSQL
+(wiki_edits table)
+     ↓
+Aggregation Script
+(runs every 2 minutes, two-window velocity query)
+     ↓
+PostgreSQL
+(trending_topics table)
+     ↓
+FastAPI
+(/trending, /trending/rising, /trending/not trending, /stats)
+     ↓
+React Frontend Dashboard
+```
+
+---
+
+

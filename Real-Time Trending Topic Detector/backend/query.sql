@@ -102,7 +102,8 @@ group by title, wiki
 order by edit_count desc;
 
 
-
+-- to open postgres in docker terminal:
+-- docker exec -it <db-container-name> psql -U <username> -d <db-name>
 
 -- queries i ran to monitor the data in docker terminal
 -- in separate terminals:

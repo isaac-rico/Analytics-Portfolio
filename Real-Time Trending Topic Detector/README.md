@@ -19,9 +19,9 @@ The project focuses on the full data engineering lifecycle: stream ingestion, me
 
 *Why this kind of project?*
 
-I wanted to expand my breadth of knowledge with various data tools, more specifically utilizing a real-time event streaming platform like Kafka, to produce visualized results based on continous influxes of data. This project is more structured than my previous projects, as common best-practice techniques were implemented such as using Kafka's offset system with a commit after a successful batched postgres write, python-dotenv, docker compose, a REST API implementation, and logging with error detection.*
+I wanted to expand my breadth of knowledge with various data tools, more specifically utilizing a real-time event streaming platform like Kafka, to produce visualized results based on continous influxes of data. This project is more structured than my previous projects, as common best-practice techniques were implemented such as using Kafka's offset system with a commit after a successful batched postgres write, python-dotenv, docker compose, a REST API implementation, and logging with error detection.
 
-*The frontend was created with the assistance of an AI agent. My primary focus for this project was the data engineering layer. The frontend exists to make the pipeline's output visible and interactive, not a demonnstration of my frontend skills.
+The frontend was created with the assistance of an AI agent. My primary focus for this project was the data engineering layer. The frontend exists to make the pipeline's output visible and interactive, not a demonnstration of my frontend skills.
 
 --- 
 
